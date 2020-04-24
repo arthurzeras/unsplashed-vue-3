@@ -3,9 +3,15 @@
     <h1 class="home__title">Beautiful Free Images and Pictures</h1>
 
     <div class="images-gallery">
-      <div class="image-item" v-for="image in images" :key="image.id" :style="{ height: `${imageHeight}px` }">
+      <a
+        href="#"
+        :key="image.id"
+        class="image-item"
+        v-for="image in images"
+        :style="{ height: `${imageHeight}px`}"
+      >
         <img :src="image.url" :alt="image.alt">
-      </div>
+      </a>
     </div>
   </div>
 </template>
@@ -17,7 +23,7 @@ import { onMounted, reactive, toRefs } from 'vue'
 
 async function _getExampleImages () {
   try {
-    const query = categories[Math.floor(Math.random() * (categories.length - 1))]
+    const query = categories[Math.floor(Math.random() * categories.length)]
     const response = await services.search({ query })
 
     return response.data.photos.results.map(photo => ({
@@ -45,9 +51,7 @@ export default {
       state.imageHeight = window.innerWidth / 5
     })
 
-    return {
-      ...toRefs(state)
-    }
+    return toRefs(state)
   }
 }
 </script>
@@ -59,12 +63,14 @@ export default {
     align-items: center;
     justify-content: center;
     height: calc(100vh - 58px);
+    background-color: var(--black);
 
     &__title {
       margin: 0;
       z-index: 1;
       position: absolute;
       color: var(--light);
+      pointer-events: none;
     }
 
     .images-gallery {
@@ -77,14 +83,20 @@ export default {
       .image-item {
         width: 20%;
         height: 200px;
+        overflow: hidden;
         display: inline-block;
 
         img {
           width: 100%;
           height: 100%;
           display: block;
+          transition: 1s;
           object-fit: cover;
-          filter: brightness(0.2)
+          filter: brightness(0.2);
+
+          &:hover {
+            transform: scale(1.3);
+          }
         }
       }
     }
