@@ -30,25 +30,15 @@
 
 <script>
 import { reactive, toRefs } from 'vue'
-
-const menus = [
-  'Nature',
-  'Wallpapers',
-  'Textures & Patterns',
-  'People',
-  'Business & Work',
-  'Travel',
-  'Technology',
-  'Animals',
-  'Interiors',
-  'Architecture'
-]
+import { categories as menus } from '@/utils'
 
 function _searchData (search) {
   console.log(search)
 }
 
 export default {
+  name: 'LayoutHeader',
+
   setup () {
     const state = reactive({
       search: ''
