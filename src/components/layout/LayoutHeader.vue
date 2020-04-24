@@ -66,15 +66,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .app-header {
+  @mixin flex-v-center {
     display: flex;
     align-items: center;
+  }
+
+  .app-header {
     padding: 10px 15px;
+    @include flex-v-center;
     border-bottom: 1px solid var(--light);
 
     &__logo {
-      display: flex;
-      align-items: center;
+      @include flex-v-center;
       text-decoration: none;
 
       svg {
@@ -95,9 +98,8 @@ export default {
       &-container {
         margin: 0;
         padding: 0;
-        display: flex;
         list-style: none;
-        align-items: center;
+        @include flex-v-center;
       }
 
       &-item {
@@ -116,10 +118,9 @@ export default {
     }
 
     &__search {
-      display: flex;
       flex: 0 0 15%;
       position: relative;
-      align-items: center;
+      @include flex-v-center;
 
       input {
         width: 100%;
