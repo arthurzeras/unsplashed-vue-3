@@ -1,5 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
+@import '../../../node_modules/@fortawesome/fontawesome-free/css/all.css';
 
 * {
+  outline: none;
+  box-sizing: border-box;
   font-family: 'Work Sans', sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --main: #754CB3;
+  --dark: #2D0766;
+  --light: #D4B8FF;
 }
