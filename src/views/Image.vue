@@ -5,7 +5,7 @@
     </div>
 
     <template v-else>
-      <img class="page-image__image" :src="image?.urls?.full" :alt="image.alt_description"/>
+      <img class="page-image__image" :src="imageUrl" :alt="image.alt_description"/>
 
       <button class="page-image__button" @click="toggleTags()">
         {{ showTags ? 'Hide' : 'Show' }} tags <span class="fa fa-tags"/>
@@ -69,10 +69,13 @@ export default {
       handleDocumentClick()
     })
 
+    const imageUrl = computed(() => state.image?.urls?.full)
+
     const tags = computed(() => state.image.tags.filter(tag => tag.type === 'search'))
 
     return {
       tags,
+      imageUrl,
       toggleTags,
       ...toRefs(state)
     }
