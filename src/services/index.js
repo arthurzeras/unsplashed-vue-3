@@ -12,5 +12,7 @@ export default {
         per_page: perPage || 20
       }
     })
-  }
+  },
+
+  photo: ({ id }) => service.get(`photos/${id}`)
 }

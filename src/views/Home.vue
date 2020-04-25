@@ -3,15 +3,15 @@
     <h1 class="home__title">Beautiful Free Images and Pictures</h1>
 
     <div class="images-gallery">
-      <a
-        href="#"
+      <router-link
         :key="image.id"
         class="image-item"
         v-for="image in images"
         :style="{ height: `${imageHeight}px`}"
+        :to="{ name: 'Image', params: { id: image.id } }"
       >
         <img :src="image.url" :alt="image.alt">
-      </a>
+      </router-link>
     </div>
   </div>
 </template>
