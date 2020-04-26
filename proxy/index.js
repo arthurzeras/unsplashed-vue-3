@@ -9,7 +9,7 @@ function requestHandler (req, res) {
       resp.on('data', chunk => (data += chunk))
 
       resp.on('end', () => {
-        res.writeHead(200, {
+        res.writeHead(resp.statusCode, {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
         })
@@ -18,12 +18,7 @@ function requestHandler (req, res) {
       })
     })
     .on('error', err => {
-      res.writeHead(500, {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      })
-
-      res.end(err)
+      console.log(err)
     })
 }
 
