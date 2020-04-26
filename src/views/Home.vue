@@ -26,7 +26,7 @@ async function _getExampleImages () {
     const query = categories[Math.floor(Math.random() * categories.length)]
     const response = await services.search({ query })
 
-    return response.data.photos.results.map(photo => ({
+    return response.data.results.map(photo => ({
       id: photo.id,
       url: photo.urls.small,
       alt: photo.alt_description
