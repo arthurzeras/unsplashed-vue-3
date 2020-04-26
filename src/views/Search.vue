@@ -1,14 +1,21 @@
 <template>
-  <section class="search-page" :class="{ 'search-page__empty': !photos.length }">
-    <div class="search-page__grid" v-if="photos.length">
-      <figure class="search-page__photo" v-for="photo in photos" :key="photo.id">
-        <img :src="photo.urls.small" :alt="photo.alt_description">
-      </figure>
+  <section class="search-page" :class="{ 'search-page__centralize': showInformations }">
+    <div class="search-page__centralize-info" v-if="showInformations">
+      <span class="far fa-frown" v-show="!fetching"/>
+      <div>
+        {{ !fetching ? 'No results for your search' : 'Loading...' }}
+      </div>
     </div>
 
-    <div class="search-page__empty-info" v-else>
-      <span class="far fa-frown"></span>
-      <div>No results for your search</div>
+    <div class="search-page__grid" v-else>
+      <router-link
+        :key="photo.id"
+        v-for="photo in photos"
+        class="search-page__photo"
+        :to="{ name: 'Image', params: { id: photo.id } }"
+      >
+        <img :src="photo.urls.small" :alt="photo.alt_description">
+      </router-link>
     </div>
   </section>
 </template>
@@ -16,7 +23,7 @@
 <script>
 import services from '@/services'
 import { useRoute } from 'vue-router'
-import { onMounted, reactive, toRefs, watch } from 'vue'
+import { onMounted, reactive, toRefs, watch, computed } from 'vue'
 
 export default {
   name: 'Search',
@@ -39,10 +46,15 @@ export default {
     watch(() => props.query, query => {
       state.pagination.page = 1
       state.params = { query }
+      state.photos = []
       fetchResults({ reset: true })
     })
 
-    const fetchResults = async (config = {}) => {
+    const showInformations = computed(() => (
+      !state.photos.length || (state.fetching && !state.photos.length)
+    ))
+
+    const fetchResults = async () => {
       state.fetching = true
 
       try {
@@ -52,9 +64,7 @@ export default {
           page: state.pagination.page
         })
 
-        state.photos = !config.reset
-          ? [...state.photos, ...res.data.results]
-          : res.data.results
+        state.photos = [...state.photos, ...res.data.results]
 
         state.pagination = {
           ...state.pagination,
@@ -89,7 +99,10 @@ export default {
       scrollHandler()
     })
 
-    return toRefs(state)
+    return {
+      ...toRefs(state),
+      showInformations
+    }
   }
 }
 </script>
@@ -107,16 +120,25 @@ export default {
   &__photo {
     margin: 0;
     padding: 0;
+    overflow: hidden;
     break-inside: avoid;
     display: inline-block;
 
+    &:hover {
+      img {
+        transform: scale(1.3);
+      }
+    }
+
     img {
+      display: block;
       width: 100%;
       height: auto;
+      transition: .4s;
     }
   }
 
-  &__empty {
+  &__centralize {
     display: flex;
     font-size: 1.5rem;
     align-items: center;
