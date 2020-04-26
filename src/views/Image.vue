@@ -1,7 +1,7 @@
 <template>
   <div class="page-image">
-    <div class="page-image__loading" v-if="loading">
-      Loading...
+    <div class="page-image__loading" v-if="loading || error">
+      {{ error || 'Loading...' }}
     </div>
 
     <template v-else>
@@ -15,10 +15,10 @@
         <aside class="page-image__tags-container" v-if="showTags">
           <ul class="page-image__tags">
             <li class="page-image__tag" v-for="tag in tags" :key="tag.title">
-              <a href="#">
+              <router-link :to="{ name: 'Search', params: { query: tag.title } }">
                 <span class="fa fa-tag"/>
                 {{ tag.title }}
-              </a>
+              </router-link>
             </li>
           </ul>
         </aside>
@@ -38,14 +38,22 @@ export default {
 
     const state = reactive({
       image: {},
+      error: null,
       loading: false,
       showTags: false
     })
 
     const getImageData = async () => {
+      state.error = null
       state.loading = true
-      state.image = (await services.photo({ id: currentRoute.value.params.id })).data
-      state.loading = false
+
+      try {
+        state.image = (await services.photo({ id: currentRoute.value.params.id })).data
+      } catch (error) {
+        state.error = error?.response?.data?.errors[0] || 'Sorry, an unexpected error ocurred, try again'
+      } finally {
+        state.loading = false
+      }
     }
 
     const toggleTags = () => {
