@@ -10,6 +10,12 @@ const routes = [
     name: 'Image',
     path: '/image/:id',
     component: () => import(/* webpackChunkName: "image" */ '../views/Image')
+  },
+  {
+    name: 'Search',
+    path: '/search/:query',
+    props: route => ({ query: route.params.query }),
+    component: () => import(/* webpackChunkName: "search" */ '../views/Search')
   }
 ]
 

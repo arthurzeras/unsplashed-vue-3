@@ -5,14 +5,13 @@ const service = axios.create({
 })
 
 export default {
-  search ({ query, perPage }) {
-    return service.get('search', {
-      params: {
-        query,
-        per_page: perPage || 20
-      }
-    })
-  },
+  photo: ({ id }) => service.get(`photos/${id}`),
 
-  photo: ({ id }) => service.get(`photos/${id}`)
+  search: ({ query, perPage, page }) => service.get('search/photos', {
+    params: {
+      query,
+      page: page || 1,
+      per_page: perPage || 20
+    }
+  })
 }

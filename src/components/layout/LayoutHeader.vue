@@ -12,9 +12,9 @@
     <nav class="app-header__menu">
       <ul class="app-header__menu-container">
         <li class="app-header__menu-item" v-for="(item, i) in menus" :key="i">
-          <a href="#">
+          <router-link :to="{ name: 'Search', params: { query: item } }">
             {{ item }}
-          </a>
+          </router-link>
         </li>
       </ul>
     </nav>
