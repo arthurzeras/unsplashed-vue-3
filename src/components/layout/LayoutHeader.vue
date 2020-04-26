@@ -30,21 +30,22 @@
 
 <script>
 import { reactive, toRefs } from 'vue'
+import { useRouter } from 'vue-router'
 import { categories as menus } from '@/utils'
-
-function _searchData (search) {
-  console.log(search)
-}
 
 export default {
   name: 'LayoutHeader',
 
   setup () {
+    const { push } = useRouter()
+
     const state = reactive({
       search: ''
     })
 
-    const searchData = () => _searchData(state.search)
+    const searchData = () => {
+      push({ to: 'Search', params: { query: state.search } })
+    }
 
     return {
       menus,
