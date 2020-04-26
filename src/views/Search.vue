@@ -32,6 +32,7 @@ export default {
     })
 
     watch(() => props.query, query => {
+      state.pagination.page = 1
       state.params = { query }
       fetchResults({ reset: true })
     })

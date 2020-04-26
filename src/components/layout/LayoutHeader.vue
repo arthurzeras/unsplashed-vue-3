@@ -44,7 +44,7 @@ export default {
     })
 
     const searchData = () => {
-      push({ to: 'Search', params: { query: state.search } })
+      push({ name: 'Search', params: { query: state.search } })
     }
 
     return {
