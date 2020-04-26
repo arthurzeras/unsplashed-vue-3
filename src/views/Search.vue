@@ -47,6 +47,7 @@ export default {
 
       try {
         const res = await services.search({
+          perPage: 30,
           query: state.params.query,
           page: state.pagination.page
         })
@@ -74,7 +75,7 @@ export default {
 
         if (
           !state.fetching &&
-          (scrollHeight - scrollTop) < (clientHeight + 600) &&
+          (scrollHeight - scrollTop) < (clientHeight + 1200) &&
           state.pagination.page < state.pagination.lastPage
         ) {
           state.pagination.page++
