@@ -1,9 +1,9 @@
 <template>
   <section class="search-page" :class="{ 'search-page__centralize': showInformations }">
     <div class="search-page__centralize-info" v-if="showInformations">
-      <span class="far fa-frown" v-show="!fetching"/>
+      <span class="far fa-frown" v-show="!fetching || error"/>
       <div>
-        {{ !fetching ? 'No results for your search' : 'Loading...' }}
+        {{ !fetching ? error || 'No results for your search' : 'Loading...' }}
       </div>
     </div>
 
@@ -37,6 +37,7 @@ export default {
     const state = reactive({
       params,
       photos: [],
+      error: null,
       fetching: false,
       pagination: {
         page: 1
@@ -51,10 +52,11 @@ export default {
     })
 
     const showInformations = computed(() => (
-      !state.photos.length || (state.fetching && !state.photos.length)
+      !state.photos.length || ((state.fetching || state.error) && !state.photos.length)
     ))
 
     const fetchResults = async () => {
+      state.error = null
       state.fetching = true
 
       try {
@@ -72,8 +74,7 @@ export default {
         }
       } catch (error) {
         state.pagination.page--
-
-        console.error(error)
+        state.error = error?.response?.data?.errors[0] || 'Sorry, an unexpected error ocurred, try again'
       } finally {
         state.fetching = false
       }

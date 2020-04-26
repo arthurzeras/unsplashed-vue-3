@@ -22,18 +22,14 @@ import { categories } from '@/utils'
 import { onMounted, reactive, toRefs } from 'vue'
 
 async function _getExampleImages () {
-  try {
-    const query = categories[Math.floor(Math.random() * categories.length)]
-    const response = await services.search({ query })
+  const query = categories[Math.floor(Math.random() * categories.length)]
+  const response = await services.search({ query })
 
-    return response.data.results.map(photo => ({
-      id: photo.id,
-      url: photo.urls.small,
-      alt: photo.alt_description
-    }))
-  } catch (error) {
-    console.error(error)
-  }
+  return response.data.results.map(photo => ({
+    id: photo.id,
+    url: photo.urls.small,
+    alt: photo.alt_description
+  }))
 }
 
 export default {
